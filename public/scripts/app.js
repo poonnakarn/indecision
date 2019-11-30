@@ -1,5 +1,7 @@
 "use strict";
 
+// Tutorial
+
 // argument objects - no longer bound
 
 var add = function add(a, b) {
