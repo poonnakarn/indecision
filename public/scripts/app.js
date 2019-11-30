@@ -1,53 +1,35 @@
 "use strict";
 
-// Tutorial
+var appRoot = document.getElementById("app");
 
-// argument objects - no longer bound
-
-var add = function add(a, b) {
-  // console.log(argument)
-  return a + b;
+var visibility = false;
+var toggleButton = function toggleButton() {
+  visibility = !visibility;
+  render();
 };
 
-console.log(add(10, 5));
+var render = function render() {
+  var template = React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "h1",
+      null,
+      "Visibility Toggle"
+    ),
+    React.createElement(
+      "button",
+      { onClick: toggleButton },
+      visibility === false ? "Show details" : "Hide details"
+    ),
+    visibility && React.createElement(
+      "p",
+      null,
+      "This is the sample detail!"
+    )
+  );
 
-// This keyword bind to scope if ES5 function
-// แต่ this keybord is no longer bound in ES6 arrow function แต่จะตาม context
-var user = {
-  name: "Poon",
-  cities: ["Bangkok", "New York", "Cholburi"],
-  printPlacesLived: function printPlacesLived() {
-    var _this = this;
-
-    // Foreach เข้าไปใน array แล้วทำทีละครั้ง
-    // this.cities.forEach(city => {
-    //   console.log(this.name + " has lived in " + city);
-    // });
-
-    // Map return array ออกมา
-    // ใช้ transform item ได้
-    return this.cities.map(function (city) {
-      return _this.name + " has lived in " + city + "!";
-    });
-  }
+  ReactDOM.render(template, appRoot);
 };
 
-console.log(user.printPlacesLived());
-
-// Challenge
-var multiplier = {
-  // numbers - array of numbers
-  // multiplyBy - single number
-  // multiply - method return new array
-  numbers: [10, 20, 30],
-  multiplyBy: 3,
-  multiply: function multiply() {
-    var _this2 = this;
-
-    return this.numbers.map(function (number) {
-      return number * _this2.multiplyBy;
-    });
-  }
-};
-
-console.log(multiplier.multiply());
+render();
