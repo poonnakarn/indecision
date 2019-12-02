@@ -5,18 +5,36 @@ import Action from "./Action";
 import Options from "./Options";
 
 export default class IndecisionApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      options: []
-    };
+  // ES6 class properties
+  state = {
+    options: []
+  };
 
-    // Binding method to 'this' object
-    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-    this.handleDeleteOption = this.handleDeleteOption.bind(this);
-    this.handlePick = this.handlePick.bind(this);
-    this.handleAddOption = this.handleAddOption.bind(this);
-  }
+  handleDeleteOptions = () => {
+    this.setState(() => ({ options: [] }));
+  };
+  handleDeleteOption = optionToRemove => {
+    this.setState(prevState => ({
+      options: prevState.options.filter(option => optionToRemove !== option)
+    }));
+  };
+  handlePick = () => {
+    alert(
+      this.state.options[Math.floor(Math.random() * this.state.options.length)]
+    );
+  };
+  handleAddOption = option => {
+    // validation
+    if (!option) {
+      return "Enter valid value to add item";
+    } else if (this.state.options.indexOf(option) > -1) {
+      return "This option already exists";
+    }
+
+    this.setState(prevState => ({ options: prevState.options.concat(option) }));
+  };
+
+  // Life cycle
   componentDidMount() {
     try {
       const json = localStorage.getItem("options");
@@ -37,35 +55,6 @@ export default class IndecisionApp extends React.Component {
   }
   componentWillUnmount() {
     console.log("componentWillUnmount");
-  }
-
-  // handleDeleteOptions
-  handleDeleteOptions() {
-    this.setState(() => ({ options: [] }));
-  }
-  handleDeleteOption(optionToRemove) {
-    this.setState(prevState => ({
-      options: prevState.options.filter(option => optionToRemove !== option)
-    }));
-  }
-
-  //handlePick
-  handlePick() {
-    alert(
-      this.state.options[Math.floor(Math.random() * this.state.options.length)]
-    );
-  }
-
-  //handleAddOption
-  handleAddOption(option) {
-    // validation
-    if (!option) {
-      return "Enter valid value to add item";
-    } else if (this.state.options.indexOf(option) > -1) {
-      return "This option already exists";
-    }
-
-    this.setState(prevState => ({ options: prevState.options.concat(option) }));
   }
 
   render() {

@@ -15,5 +15,10 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
+  },
+  //sourcemap
+  devtool: "cheap-module-eval-sourcemap",
+  devServer: {
+    contentBase: path.join(__dirname, "public")
   }
 };
